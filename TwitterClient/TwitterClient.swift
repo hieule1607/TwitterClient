@@ -58,32 +58,31 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
-    func favoriteTweet(idTweet: NSNumber?, success: ([Tweet]) -> (), failure: (NSError) -> ()) {
+    func favoriteTweet(idTweet: NSNumber?, success: (AnyObject?) -> (), failure: (NSError) -> ()) {
         var parameters = [String : AnyObject]()
 
         if idTweet != nil {
             parameters["id"] = idTweet
         }
-        /*
-        if isFavorited != nil {
-            parameters["favorited"] = isFavorited
-        }
-*/
-        //print(idTweet)
-        POST("1.1/favorites/create.json?id=\(idTweet)", parameters: parameters, progress: nil, success: { (task: NSURLSessionTask, response: AnyObject?) -> Void in
+
+        POST("1.1/favorites/create.json", parameters: parameters, progress: nil, success: { (task: NSURLSessionTask, response: AnyObject?) -> Void in
+            success(response)
+            
             }, failure: { (task: NSURLSessionTask?, error: NSError) -> Void in
                 failure(error)
         })
+        
     }
     
-    func deFavoriteTweet(idTweet: NSNumber?, success: ([Tweet]) -> (), failure: (NSError) -> ()) {
+    func deFavoriteTweet(idTweet: NSNumber?, success: (AnyObject?) -> (), failure: (NSError) -> ()) {
         var parameters = [String : AnyObject]()
         
         if idTweet != nil {
             parameters["id"] = idTweet
         }
-       
-        POST("1.1/favorites/destroy.json?id=\(idTweet)", parameters: parameters, progress: nil, success: { (task: NSURLSessionTask, response: AnyObject?) -> Void in
+        
+        POST("1.1/favorites/destroy.json", parameters: parameters, progress: nil, success: { (task: NSURLSessionTask, response: AnyObject?) -> Void in
+            success(response)
             
             }, failure: { (task: NSURLSessionTask?, error: NSError) -> Void in
                 failure(error)
