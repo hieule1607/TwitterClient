@@ -46,12 +46,7 @@ class TweetsCell: UITableViewCell {
             tweetTextLabel.text = tweet.text as? String
             retweetCountLabel.text = "\(tweet.retweetCount)"
             
-            if tweet.favouritesCount > 0 {
-                favoriteCountLabel.text = String((tweet.favouritesCount))
-            } else {
-                favoriteCountLabel.text = "0"
-            }
-            
+            favoriteCountLabel.text = String((tweet.favouritesCount))
             isFavorited = tweet.favoriteStatus
             idTweet = tweet.idTweet
             
@@ -60,6 +55,7 @@ class TweetsCell: UITableViewCell {
             } else {
                 favoriteButtonOL.imageView?.image = UIImage(named: "favorite.png")
             }
+        
         }
     }
     

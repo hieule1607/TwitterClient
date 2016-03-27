@@ -15,42 +15,6 @@ class TweetsViewController: UIViewController, TweetCellFavoriteDelegate {
     var tweetDetail = Tweet?()
     @IBOutlet weak var tableView: UITableView!
     
-    
-    func favorite(tweetCell: TweetsCell) {
-        if tweetCell.isFavorited == false {
-            let id = tweetCell.idTweet
-            TwitterClient.sharedInstance.favoriteTweet(id, success: { (tweets:[Tweet]) -> () in
-                tweetCell.favoriteButtonOL.imageView?.image = UIImage(named: "favorite_on.png")
-                let thisTweet = tweetCell.tweet! as Tweet
-                if thisTweet.favouritesCount > 0 {
-                    tweetCell.favoriteCountLabel.text = "\(thisTweet.favouritesCount + 1)"
-                } else {
-                    tweetCell.favoriteCountLabel.text = "1"
-                }
-                //self.tableView.reloadData()
-
-                }, failure: { (error: NSError) -> () in
-                    
-            })
-        } else {
-            
-            TwitterClient.sharedInstance.deFavoriteTweet(tweetCell.idTweet, success: { (tweets: [Tweet]) -> () in
-                tweetCell.favoriteButtonOL.imageView?.image = UIImage(named: "favorite.png")
-                let thisTweet = tweetCell.tweet! as Tweet
-                if thisTweet.favouritesCount > 0 {
-                    tweetCell.favoriteCountLabel.text = "\(thisTweet.favouritesCount - 1)"
-                } else {
-                    tweetCell.favoriteCountLabel.text = "0"
-                }
-                //self.tableView.reloadData()
-
-                }, failure: { (error: NSError) -> () in
-                    print(error.localizedDescription)
-            })
-        }
-        
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
@@ -63,17 +27,52 @@ class TweetsViewController: UIViewController, TweetCellFavoriteDelegate {
         refreshControl.addTarget(self, action: "refreshControlAction:", forControlEvents: UIControlEvents.ValueChanged)
         tableView.insertSubview(refreshControl, atIndex: 0)
         
-        TwitterClient.sharedInstance.homeTimeline(nil, success: { (tweets: [Tweet]) -> () in
+        TwitterClient.sharedInstance.homeTimeline(20, success: { (tweets: [Tweet]) -> () in
     
             self.tweets = tweets
             
             dispatch_async(dispatch_get_main_queue()) {
                 self.tableView.reloadData()
             }
-            print(tweets.count)
             }) { (error: NSError) -> () in
                 print(error.localizedDescription)
         }
+    }
+    
+    func favorite(tweetCell: TweetsCell) {
+        if tweetCell.isFavorited == false {
+            let id = tweetCell.idTweet
+            TwitterClient.sharedInstance.favoriteTweet(id, success: { (tweets:[Tweet]) -> () in
+                tweetCell.favoriteButtonOL.imageView?.image = UIImage(named: "favorite_on.png")
+                let thisTweet = tweetCell.tweet! as Tweet
+                if thisTweet.favouritesCount > 0 {
+                    tweetCell.favoriteCountLabel.text = "\(thisTweet.favouritesCount + 1)"
+                } else {
+                    tweetCell.favoriteCountLabel.text = "1"
+                }
+               
+                
+                }, failure: { (error: NSError) -> () in
+                    print(error.localizedDescription)
+            })
+            
+        } else {
+            
+            TwitterClient.sharedInstance.deFavoriteTweet(tweetCell.idTweet, success: { (tweets: [Tweet]) -> () in
+                tweetCell.favoriteButtonOL.imageView?.image = UIImage(named: "favorite.png")
+                let thisTweet = tweetCell.tweet! as Tweet
+                if thisTweet.favouritesCount > 0 {
+                    tweetCell.favoriteCountLabel.text = "\(thisTweet.favouritesCount - 1)"
+                } else {
+                    tweetCell.favoriteCountLabel.text = "0"
+                }
+               
+                
+                }, failure: { (error: NSError) -> () in
+                    print(error.localizedDescription)
+            })
+        }
+        
     }
     
     @IBAction func onLogoutButton(sender: AnyObject) {
@@ -101,7 +100,7 @@ class TweetsViewController: UIViewController, TweetCellFavoriteDelegate {
     // Hides the RefreshControl
     func refreshControlAction(refreshControl: UIRefreshControl) {
         
-        TwitterClient.sharedInstance.homeTimeline(nil, success: { (tweets: [Tweet]) -> () in
+        TwitterClient.sharedInstance.homeTimeline(20, success: { (tweets: [Tweet]) -> () in
             
             self.tweets = tweets
            
@@ -128,8 +127,6 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
         cell.favoriteDelegate = self
 
         cell.tweet = tweets[indexPath.row]
-        //print(cell.tweet.favoriteStatus!)
-        //print(indexPath.row)
         
         return cell
     }
