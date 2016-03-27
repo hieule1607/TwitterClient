@@ -71,7 +71,6 @@ class TwitterClient: BDBOAuth1SessionManager {
 */
         //print(idTweet)
         POST("1.1/favorites/create.json?id=\(idTweet)", parameters: parameters, progress: nil, success: { (task: NSURLSessionTask, response: AnyObject?) -> Void in
-            print("asdasda")
             }, failure: { (task: NSURLSessionTask?, error: NSError) -> Void in
                 failure(error)
         })

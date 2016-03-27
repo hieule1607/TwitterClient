@@ -17,8 +17,7 @@ class TweetsViewController: UIViewController, TweetCellFavoriteDelegate {
     
     
     func favorite(tweetCell: TweetsCell) {
-        //if tweetCell.isFavorited! {
-            //tweetCell.isFavorited = true
+        if tweetCell.isFavorited == false {
             let id = tweetCell.idTweet
             TwitterClient.sharedInstance.favoriteTweet(id, success: { (tweets:[Tweet]) -> () in
                 tweetCell.favoriteButtonOL.imageView?.image = UIImage(named: "favorite_on.png")
@@ -28,13 +27,13 @@ class TweetsViewController: UIViewController, TweetCellFavoriteDelegate {
                 } else {
                     tweetCell.favoriteCountLabel.text = "1"
                 }
+                //self.tableView.reloadData()
 
                 }, failure: { (error: NSError) -> () in
                     
             })
-       // } else { 
-/*
-            tweetCell.isFavorited = false
+        } else {
+            
             TwitterClient.sharedInstance.deFavoriteTweet(tweetCell.idTweet, success: { (tweets: [Tweet]) -> () in
                 tweetCell.favoriteButtonOL.imageView?.image = UIImage(named: "favorite.png")
                 let thisTweet = tweetCell.tweet! as Tweet
@@ -43,12 +42,12 @@ class TweetsViewController: UIViewController, TweetCellFavoriteDelegate {
                 } else {
                     tweetCell.favoriteCountLabel.text = "0"
                 }
+                //self.tableView.reloadData()
 
                 }, failure: { (error: NSError) -> () in
                     print(error.localizedDescription)
             })
         }
-*/
         
     }
     
@@ -102,7 +101,7 @@ class TweetsViewController: UIViewController, TweetCellFavoriteDelegate {
     // Hides the RefreshControl
     func refreshControlAction(refreshControl: UIRefreshControl) {
         
-        TwitterClient.sharedInstance.homeTimeline(22, success: { (tweets: [Tweet]) -> () in
+        TwitterClient.sharedInstance.homeTimeline(nil, success: { (tweets: [Tweet]) -> () in
             
             self.tweets = tweets
            

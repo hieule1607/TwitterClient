@@ -55,7 +55,7 @@ class TweetsCell: UITableViewCell {
             isFavorited = tweet.favoriteStatus
             idTweet = tweet.idTweet
             
-            if isFavorited! {
+            if isFavorited == true {
                 favoriteButtonOL.imageView?.image = UIImage(named: "favorite_on.png")
             } else {
                 favoriteButtonOL.imageView?.image = UIImage(named: "favorite.png")
