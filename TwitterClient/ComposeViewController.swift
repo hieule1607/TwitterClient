@@ -9,17 +9,69 @@
 import UIKit
 
 class ComposeViewController: UIViewController {
+    
+    @IBOutlet weak var accountImageProfile: UIImageView!
+    @IBOutlet weak var accountNameLabel: UILabel!
+    @IBOutlet weak var accountScreenNameLabel: UILabel!
+    @IBOutlet weak var remainingCharactersLabel: UILabel!
+    @IBOutlet weak var composeTextView: UITextView!
+    
+    var currentUser: User!
+    let MAX_CHARACTERS = 140
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        TwitterClient.sharedInstance.currentAccount({ (user: User) -> () in
+            
+            self.currentUser = user
+            self.accountImageProfile.setImageWithURL(self.currentUser!.profileURL!)
+            self.accountNameLabel.text = self.currentUser!.name as? String
+            self.accountScreenNameLabel.text = "@\(self.currentUser!.screenName!)"
 
-        // Do any additional setup after loading the view.
+            }) { (error: NSError) -> () in
+                print(error.localizedDescription)
+        }
+        self.remainingCharactersLabel.text = "\(MAX_CHARACTERS)"
+        self.composeTextView.becomeFirstResponder()
+    }
+    
+    @IBAction func onCancelButton(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    @IBAction func onTweetButton(sender: AnyObject) {
+        let status = self.composeTextView.text
+        if ((status.length) == 0) {
+            return
+        }
+        
+        let params: NSDictionary = [
+            "status": status
+        ]
+        //print(params)
+        TwitterClient.sharedInstance.composeTweet(params, success: { (tweets:[Tweet]) -> () in
+            
+            }) { (error: NSError) -> () in
+                print(error.localizedDescription)
+        }
+        self.dismissViewControllerAnimated(true, completion: nil)
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        self.textViewDidChange(composeTextView)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func textViewDidChange(textView: UITextView) {
+        let status = textView.text
+        let charactersRemaining = MAX_CHARACTERS - (status.length)
+            self.remainingCharactersLabel.text = "\(charactersRemaining)"
+        self.remainingCharactersLabel.textColor = charactersRemaining >= 0 ? .lightGrayColor() : .redColor()
+   
     }
+    
+    
     
 
     /*
@@ -32,4 +84,7 @@ class ComposeViewController: UIViewController {
     }
     */
 
+}
+extension String {
+    var length: Int { return characters.count    }  // Swift 2.0
 }

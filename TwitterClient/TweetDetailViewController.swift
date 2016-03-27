@@ -7,13 +7,38 @@
 //
 
 import UIKit
+import AFNetworking
+
 
 class TweetDetailViewController: UIViewController {
 
+    @IBOutlet weak var tweetImageProfile: UIImageView!
+    @IBOutlet weak var tweetUsernameLabel: UILabel!
+    @IBOutlet weak var tweetScreenNameLabel: UILabel!
+    @IBOutlet weak var tweetTextlabel: UILabel!
+    @IBOutlet weak var tweetTimestampLabel: UILabel!
+    @IBOutlet weak var retweetCountLabel: UILabel!
+    @IBOutlet weak var favoriteCountLabel: UILabel!
+    
+    var tweetDetail: Tweet!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        tweetUsernameLabel.text = tweetDetail!.userName
+        tweetScreenNameLabel.text = "@\(tweetDetail!.userScreenName!)"
+        tweetTextlabel.text = tweetDetail!.text as? String
+        tweetImageProfile.setImageWithURL((tweetDetail!.userImageProfile)!)
+        retweetCountLabel.text = String((tweetDetail!.retweetCount))
+        favoriteCountLabel.text = String((tweetDetail!.favouritesCount))
+        
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "MMMM dd, yyyy 'at' h:mm aaa"
+        tweetTimestampLabel.text = formatter.stringFromDate(self.tweetDetail!.timestamp!)
+        
+        tweetImageProfile.layer.cornerRadius = 5
+        tweetImageProfile.clipsToBounds = true
+        
     }
 
     override func didReceiveMemoryWarning() {
