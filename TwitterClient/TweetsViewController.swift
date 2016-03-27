@@ -43,7 +43,7 @@ class TweetsViewController: UIViewController, TweetCellFavoriteDelegate {
         let thisTweet = tweetCell.tweet! as Tweet
         if tweetCell.isFavorited == false {
             TwitterClient.sharedInstance.favoriteTweet(tweetCell.idTweet, success: { (tweets:[Tweet]) -> () in
-                tweetCell.favoriteButtonOL.imageView?.image = UIImage(named: "favorite_on.png")
+                tweetCell.favoriteButtonOL.setImage(UIImage(named: "favorite_on.png"), forState: UIControlState.Normal)
                 if thisTweet.favouritesCount > 0 {
                     tweetCell.favoriteCountLabel.text = "\(thisTweet.favouritesCount + 1)"
                 } else {
@@ -57,7 +57,7 @@ class TweetsViewController: UIViewController, TweetCellFavoriteDelegate {
 
         } else {
             TwitterClient.sharedInstance.deFavoriteTweet(tweetCell.idTweet, success: { (tweets: [Tweet]) -> () in
-                tweetCell.favoriteButtonOL.imageView?.image = UIImage(named: "favorite.png")
+                tweetCell.favoriteButtonOL.setImage(UIImage(named: "favorite.png"), forState: UIControlState.Normal)
                 if thisTweet.favouritesCount > 0 {
                     tweetCell.favoriteCountLabel.text = "\(thisTweet.favouritesCount - 1)"
                 } else {
@@ -123,7 +123,7 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
         cell.favoriteDelegate = self
 
         cell.tweet = tweets[indexPath.row]
-        //tableView.reloadData()
+        
         return cell
     }
 }
