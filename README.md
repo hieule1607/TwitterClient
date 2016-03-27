@@ -1,4 +1,4 @@
-# Week Project 2 - TwitterClient
+# Week Project 3 - TwitterClient
 
 TwitterClient is a basic twitter app to read and compose tweets from the [Twitter API](https://apps.twitter.com/).
 
