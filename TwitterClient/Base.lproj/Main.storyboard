@@ -376,6 +376,9 @@
                                     <constraint firstAttribute="height" constant="23" id="zpz-cj-B5O"/>
                                 </constraints>
                                 <state key="normal" image="favorite"/>
+                                <connections>
+                                    <action selector="onFavoriteButton:" destination="6Kj-Kh-ZxJ" eventType="touchUpInside" id="p6b-g1-b1R"/>
+                                </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="G5i-Js-T5b">
                                 <rect key="frame" x="6" y="276" width="361" height="1"/>
@@ -420,6 +423,7 @@
                             <constraint firstItem="COi-kA-GS6" firstAttribute="leading" secondItem="AFn-Hh-cj4" secondAttribute="trailing" constant="72" id="UwG-s6-V1T"/>
                             <constraint firstItem="wKA-GF-edf" firstAttribute="top" secondItem="chV-jH-uG7" secondAttribute="bottom" constant="9" id="V4N-8W-4qe"/>
                             <constraint firstItem="Kw3-Li-bSo" firstAttribute="leading" secondItem="FYo-AC-ciT" secondAttribute="leading" constant="22" id="V6g-8e-usy"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="COi-kA-GS6" secondAttribute="trailing" constant="12" id="Xku-pj-yRX"/>
                             <constraint firstItem="lW7-rG-GyY" firstAttribute="leading" secondItem="FYo-AC-ciT" secondAttribute="leading" constant="7" id="YKW-ry-do3"/>
                             <constraint firstItem="COi-kA-GS6" firstAttribute="top" secondItem="lW7-rG-GyY" secondAttribute="bottom" constant="8" id="Zcs-hZ-PnU"/>
                             <constraint firstItem="kxa-69-Awp" firstAttribute="top" secondItem="WeZ-VL-eIl" secondAttribute="bottom" constant="8" id="bjA-HY-N6L"/>
@@ -493,6 +497,7 @@
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="favoriteButtonOL" destination="COi-kA-GS6" id="wZB-zH-TQR"/>
                         <outlet property="favoriteCountLabel" destination="ca3-Jr-29z" id="1YX-3j-nw2"/>
                         <outlet property="retweetCountLabel" destination="Zbx-f4-WDh" id="byM-iy-nKt"/>
                         <outlet property="tweetImageProfile" destination="kxa-69-Awp" id="Ol5-4G-r1A"/>

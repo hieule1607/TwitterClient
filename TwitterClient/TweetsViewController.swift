@@ -40,34 +40,30 @@ class TweetsViewController: UIViewController, TweetCellFavoriteDelegate {
     }
     
     func favorite(tweetCell: TweetsCell) {
+        let thisTweet = tweetCell.tweet! as Tweet
         if tweetCell.isFavorited == false {
-            let id = tweetCell.idTweet
-            TwitterClient.sharedInstance.favoriteTweet(id, success: { (tweets:[Tweet]) -> () in
+            TwitterClient.sharedInstance.favoriteTweet(tweetCell.idTweet, success: { (tweets:[Tweet]) -> () in
                 tweetCell.favoriteButtonOL.imageView?.image = UIImage(named: "favorite_on.png")
-                let thisTweet = tweetCell.tweet! as Tweet
                 if thisTweet.favouritesCount > 0 {
                     tweetCell.favoriteCountLabel.text = "\(thisTweet.favouritesCount + 1)"
                 } else {
                     tweetCell.favoriteCountLabel.text = "1"
                 }
-               
                 
+                print(tweetCell.isFavorited)
                 }, failure: { (error: NSError) -> () in
                     print(error.localizedDescription)
             })
-            
+
         } else {
-            
             TwitterClient.sharedInstance.deFavoriteTweet(tweetCell.idTweet, success: { (tweets: [Tweet]) -> () in
                 tweetCell.favoriteButtonOL.imageView?.image = UIImage(named: "favorite.png")
-                let thisTweet = tweetCell.tweet! as Tweet
                 if thisTweet.favouritesCount > 0 {
                     tweetCell.favoriteCountLabel.text = "\(thisTweet.favouritesCount - 1)"
                 } else {
                     tweetCell.favoriteCountLabel.text = "0"
                 }
-               
-                
+
                 }, failure: { (error: NSError) -> () in
                     print(error.localizedDescription)
             })
@@ -127,7 +123,7 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
         cell.favoriteDelegate = self
 
         cell.tweet = tweets[indexPath.row]
-        
+        //tableView.reloadData()
         return cell
     }
 }

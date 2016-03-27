@@ -19,6 +19,7 @@ class TweetDetailViewController: UIViewController {
     @IBOutlet weak var tweetTimestampLabel: UILabel!
     @IBOutlet weak var retweetCountLabel: UILabel!
     @IBOutlet weak var favoriteCountLabel: UILabel!
+    @IBOutlet weak var favoriteButtonOL: UIButton!
     
     var tweetDetail: Tweet!
     
@@ -36,11 +37,14 @@ class TweetDetailViewController: UIViewController {
         formatter.dateFormat = "MMMM dd, yyyy 'at' h:mm aaa"
         tweetTimestampLabel.text = formatter.stringFromDate(self.tweetDetail!.timestamp!)
         
-        tweetImageProfile.layer.cornerRadius = 5
+        tweetImageProfile.layer.cornerRadius = 9
         tweetImageProfile.clipsToBounds = true
         
     }
 
+    @IBAction func onFavoriteButton(sender: AnyObject) {
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
